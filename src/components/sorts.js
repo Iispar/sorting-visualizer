@@ -1,19 +1,38 @@
+function wait (milisec) {
+  return new Promise(resolve => {
+    setTimeout(() => { resolve('') }, milisec)
+  })
+}
 
-const bubbleSort = (arr) => {
+export const bubbleSort = async (arr, swap, delay) => {
+  const bars = document.querySelectorAll('.array-bar')
   // we go through every index and compare it with the next one. If its larger we swap the values.
   // Do this until the whole list is sorted.
-  arr.forEach(() => {
-    for (let a = 0; a < (arr.length - 1); a++) {
+  for (let i = 0; i < arr.length; i++) {
+    for (let a = 0; a < (arr.length - 1 - i); a++) {
+      // indicates the two values that are being compared
+      bars[a].style.backgroundColor = 'red'
+      bars[a + 1].style.backgroundColor = 'red'
+
+      // slow down the comparision
+      await wait(delay)
+
       if (arr[a] > arr[a + 1]) {
         // swap values if a + 1 > a
-        [arr[a], arr[a + 1]] = [arr[a + 1], arr[a]]
+        const b = a + 1
+        // send values to swap function which displays the animation
+        swap(a, b)
       }
+
+      // change bars back to normal
+      bars[a].style.backgroundColor = 'green'
+      bars[a + 1].style.backgroundColor = 'green'
     }
-  })
+  }
   return arr
 }
 
-const selectionSort = (arr) => {
+export const selectionSort = (arr) => {
   // actual sorting algorithm
   for (let i = 0; i < arr.length; i++) {
     const sliced = arr.slice(i)
@@ -28,7 +47,7 @@ const selectionSort = (arr) => {
   return arr
 }
 
-const quickSort = (arr) => {
+export const quickSort = (arr) => {
   // if the sort is finished return final array
   if (arr.length <= 1) {
     return arr
@@ -51,7 +70,7 @@ const quickSort = (arr) => {
 // for mergesort we will need two functions, merge and mergeSort together
 // merge will return inputed array sorted
 // mergeSort will split the original array and call it with recursion until it's sorted.
-const mergeSort = (arr) => {
+export const mergeSort = (arr) => {
   // stop the recursion if leftover array is under 2 in length
   if (arr.length < 2) { return arr }
   // split the array from the middle. Now left side is called left and the origina array is split in half (right)
@@ -87,10 +106,3 @@ const merge = (left, right) => {
 //   var endTime = Date.now()
 //   console.log(`${name} took ${endTime - startTime} milliseconds`)
 // }
-
-module.exports = {
-  bubbleSort,
-  selectionSort,
-  quickSort,
-  mergeSort
-}

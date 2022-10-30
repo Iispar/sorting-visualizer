@@ -11,7 +11,7 @@ const SortingVisualizer = () => {
     setArray(arr)
   }
 
-  // returns unsorted array.
+  // renders the array.
   const arrayList = () => {
     return (
       array.map((value, index) =>
@@ -25,13 +25,19 @@ const SortingVisualizer = () => {
     )
   }
 
+  function swap (a, b) {
+    const arr = array;
+    [arr[a], arr[b]] = [arr[b], arr[a]]
+    setArray([...arr])
+  }
+
   const sortSelectionSort = () => {
     const sorted = selectionSort(array)
-    setArray(sorted)
+    setArray([...sorted])
     console.log(array)
   }
-  const sortBubbleSort = () => {
-    const sorted = bubbleSort(array)
+  const sortBubbleSort = async () => {
+    const sorted = await bubbleSort(array, swap, 100)
     setArray(sorted)
     console.log(array)
   }
