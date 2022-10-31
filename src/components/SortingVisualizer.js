@@ -3,11 +3,14 @@ import './SortingVisualizer.css'
 import { bubbleSort, selectionSort, quickSort, mergeSort } from './sorts'
 
 const SortingVisualizer = () => {
-  const [array, setArray] = useState(Array.from({ length: 50 }, () => Math.floor(Math.random() * 500)))
+  const arrSize = 50
+  const delay = 50
+
+  const [array, setArray] = useState(Array.from({ length: arrSize }, () => Math.floor(Math.random() * 500)))
 
   // creates a new array.
   const resetArray = () => {
-    const arr = Array.from({ length: 100 }, () => Math.floor(Math.random() * 500))
+    const arr = Array.from({ length: arrSize }, () => Math.floor(Math.random() * 500))
     setArray(arr)
   }
 
@@ -31,15 +34,14 @@ const SortingVisualizer = () => {
     setArray([...arr])
   }
 
-  const sortSelectionSort = () => {
-    const sorted = selectionSort(array)
+  const sortSelectionSort = async () => {
+    const sorted = await selectionSort(array, swap, delay)
     setArray([...sorted])
     console.log(array)
   }
   const sortBubbleSort = async () => {
-    const sorted = await bubbleSort(array, swap, 100)
-    setArray(sorted)
-    console.log(array)
+    const sorted = await bubbleSort(array, swap, delay)
+    setArray([...sorted])
   }
   const sortQuickSort = () => {
     const sorted = quickSort(array)

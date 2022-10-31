@@ -32,16 +32,27 @@ export const bubbleSort = async (arr, swap, delay) => {
   return arr
 }
 
-export const selectionSort = (arr) => {
+export const selectionSort = async (arr, swap, delay) => {
+  const bars = document.querySelectorAll('.array-bar')
   // actual sorting algorithm
   for (let i = 0; i < arr.length; i++) {
-    const sliced = arr.slice(i)
-
-    // finds the smallest value and the index of it. slice makes sure the values that have been sorted dont appear.
-    const smallestIndex = sliced.indexOf((Math.min(...sliced))) + i;
-
+    let min = i
+    bars[min].style.backgroundColor = 'orange'
+    // find the smallest index of the array
+    for (let k = i + 1; k < arr.length; k++) {
+      bars[k].style.backgroundColor = 'red'
+      await wait(delay)
+      if (arr[k] < arr[min]) {
+        bars[min].style.backgroundColor = 'green'
+        min = k
+        bars[min].style.backgroundColor = 'orange'
+      } else {
+        bars[k].style.backgroundColor = 'green'
+      }
+    }
+    bars[min].style.backgroundColor = 'green'
     // swap smallest value and index
-    [arr[i], arr[smallestIndex]] = [arr[smallestIndex], arr[i]]
+    swap(i, min)
   }
 
   return arr
