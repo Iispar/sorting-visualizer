@@ -14,16 +14,28 @@ const SortingVisualizer = () => {
     setArray(arr)
   }
 
+  const checkArray = () => {
+    let broken = false
+    for (let i = 1; i < array.length; i++) {
+      if (array[i] < array[i - 1]) {
+        broken = true
+      }
+    }
+    if (!broken) {
+      return <h1> Sorted </h1>
+    }
+  }
+
   // renders the array.
   const arrayList = () => {
     return (
       array.map((value, index) =>
-        <div
-          className = "array-bar"
-          key = {index}
-          style = {{ height: `${value}px` }}
-          >
-        </div>
+          <div
+            className = "array-bar"
+            key = {index}
+            style = {{ height: `${value}px` }}
+            >
+          </div>
       )
     )
   }
@@ -49,9 +61,9 @@ const SortingVisualizer = () => {
     console.log(array)
   }
   const sortMergeSort = () => {
-    const sorted = mergeSort(array)
-    setArray(sorted)
-    console.log(array)
+    const sorted = mergeSort(array, 0)
+    // setArray(sorted)
+    console.log(sorted)
   }
 
   return (
@@ -64,7 +76,10 @@ const SortingVisualizer = () => {
 
       <div className = "array-container">
         {arrayList()}
-        </div>
+      </div>
+      <div>
+        {checkArray()}
+      </div>
       </>
   )
 }

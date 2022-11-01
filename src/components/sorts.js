@@ -58,7 +58,7 @@ export const selectionSort = async (arr, swap, delay) => {
   return arr
 }
 
-export const quickSort = (arr) => {
+export const quickSort = async (arr) => {
   // if the sort is finished return final array
   if (arr.length <= 1) {
     return arr
@@ -75,33 +75,39 @@ export const quickSort = (arr) => {
   }
 
   // create a callback of sorting the left and right side until not neccesary
-  return quickSort(left).concat(pivot, quickSort(right))
+  return await quickSort(left).concat(pivot, quickSort(right))
 }
 
 // for mergesort we will need two functions, merge and mergeSort together
 // merge will return inputed array sorted
 // mergeSort will split the original array and call it with recursion until it's sorted.
-export const mergeSort = (arr) => {
+export const mergeSort = async (arr, i) => {
+//  const bars = document.querySelectorAll('.array-bar')
   // stop the recursion if leftover array is under 2 in length
-  if (arr.length < 2) { return arr }
+  if (arr.length < 2) { i += 1; return arr }
   // split the array from the middle. Now left side is called left and the origina array is split in half (right)
-  const left = arr.splice(0, arr.length / 2)
+  const middle = Math.ceil(arr.length / 2)
+  const left = arr.splice(0, middle)
 
   // finally recursively call left side of array so it will split it again and again until it's finished.
   // also calls right side and then does the whole loop again until right side is also under 2 in legth.
   // uses also now merge which will sort the arrays itself, when the arrays are returned
 
-  return merge(mergeSort(left), mergeSort(arr))
+  return merge(await mergeSort(left, i, middle), await mergeSort(arr, i, middle))
 }
 
-const merge = (left, right) => {
+const merge = async (left, right, middle) => {
+  const bars = document.querySelectorAll('.array-bar')
   // takes in two components, left and right and these together are the original array.
   const arr = []
+  console.log(middle)
 
   // loop until left or right side of array is clear.
   while (left.length && right.length) {
     // compare the first indexes in both arrays, shift will remove the first array and push it to the sorted array
     left[0] < right[0] ? arr.push(left.shift()) : arr.push(right.shift())
+    bars[0].style.backgroundColor = 'red'
+    await wait(1000)
   }
 
   // if we didn't go through the left or right array we just push them to the end.
@@ -116,4 +122,4 @@ const merge = (left, right) => {
 //   sort(arr)
 //   var endTime = Date.now()
 //   console.log(`${name} took ${endTime - startTime} milliseconds`)
-// }
+//
