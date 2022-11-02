@@ -61,7 +61,7 @@ const SortingVisualizer = () => {
     console.log(array)
   }
   const sortMergeSort = () => {
-    const sorted = mergeSort(array, 0)
+    const sorted = mergeSort(array, 0, parseInt(array.length) - 1)
     // setArray(sorted)
     console.log(sorted)
   }

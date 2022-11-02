@@ -81,37 +81,82 @@ export const quickSort = async (arr) => {
 // for mergesort we will need two functions, merge and mergeSort together
 // merge will return inputed array sorted
 // mergeSort will split the original array and call it with recursion until it's sorted.
-export const mergeSort = async (arr, i) => {
-//  const bars = document.querySelectorAll('.array-bar')
-  // stop the recursion if leftover array is under 2 in length
-  if (arr.length < 2) { i += 1; return arr }
-  // split the array from the middle. Now left side is called left and the origina array is split in half (right)
-  const middle = Math.ceil(arr.length / 2)
-  const left = arr.splice(0, middle)
-
-  // finally recursively call left side of array so it will split it again and again until it's finished.
-  // also calls right side and then does the whole loop again until right side is also under 2 in legth.
-  // uses also now merge which will sort the arrays itself, when the arrays are returned
-
-  return merge(await mergeSort(left, i, middle), await mergeSort(arr, i, middle))
-}
-
-const merge = async (left, right, middle) => {
+const merge = async (arr, l, m, r, delay) => {
   const bars = document.querySelectorAll('.array-bar')
-  // takes in two components, left and right and these together are the original array.
-  const arr = []
-  console.log(middle)
+  console.log('Now merging')
+  const n1 = m - l + 1
+  const n2 = r - m
+  const left = new Array(n1)
+  const right = new Array(n2)
 
-  // loop until left or right side of array is clear.
-  while (left.length && right.length) {
-    // compare the first indexes in both arrays, shift will remove the first array and push it to the sorted array
-    left[0] < right[0] ? arr.push(left.shift()) : arr.push(right.shift())
-    bars[0].style.backgroundColor = 'red'
-    await wait(1000)
+  for (let i = 0; i < n1; i++) {
+    await wait(delay)
+    console.log('left loop')
+    bars[l + i].style.background = 'red'
+  }
+  for (let i = 0; i < n2; i++) {
+    await wait(delay)
+    console.log('right loop')
+    bars[m + 1 + i].style.background = 'orange'
   }
 
-  // if we didn't go through the left or right array we just push them to the end.
-  return [...arr, ...left, ...right]
+  await wait(delay)
+  let i = 0; let j = 0; let k = l
+  while (i < n1 && j < n2) {
+    await wait(delay)
+    console.log('in merge')
+
+    // comparision coloring
+    if (parseInt(left[i] <= parseInt(right[j]))) {
+      if ((n1 + n2) === arr.length) {
+        bars[k].style.background = 'pink'
+      } else {
+        bars[k].style.background = 'lightgreen'
+      }
+
+      i++; k++
+    } else {
+      if ((n1 + n2) === arr.length) {
+        bars[k].style.background = 'pink'
+      } else {
+        bars[k].style.background = 'lightgreen'
+      }
+      j++; k++
+    }
+  }
+  while (i < n1) {
+    await wait(delay)
+    // color
+    if ((n1 + n2) === arr.length) {
+      bars[k].style.background = 'pink'
+    } else {
+      bars[k].style.background = 'lightgreen'
+    }
+    i++; k++
+  }
+
+  while (j < n2) {
+    await wait(delay)
+    if ((n1 + n2) === arr.length) {
+      bars[k].style.background = 'pink'
+    } else {
+      bars[k].style.background = 'lightgreen'
+    }
+    j++; k++
+  }
+}
+
+// eslint-disable-next-line no-unused-vars
+export const mergeSort = async (arr, left, right) => {
+  if (left >= right) {
+    return
+  }
+
+  const middle = left + Math.floor((right - left) / 2)
+  console.log('left: ' + left + ' right: ' + right + ' midlle: ' + middle)
+  await mergeSort(arr, left, middle)
+  await mergeSort(arr, middle + 1, right)
+  await merge(arr, left, middle, right, 500)
 }
 
 // funtion to measure the time to sort
