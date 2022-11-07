@@ -89,31 +89,41 @@ const merge = async (arr, l, m, r, delay) => {
   const left = new Array(n1)
   const right = new Array(n2)
 
+  // loop for left array to fill it with the height of the bars. Also show the array which
+  // is being compared at the moment with red
   for (let i = 0; i < n1; i++) {
     await wait(delay)
     console.log('left loop')
     bars[l + i].style.background = 'red'
+    left[i] = bars[l + i].style.height
   }
+  // same for right array and coloring it with orange
   for (let i = 0; i < n2; i++) {
     await wait(delay)
     console.log('right loop')
     bars[m + 1 + i].style.background = 'orange'
+    right[i] = bars[m + 1 + i].style.height
   }
 
   await wait(delay)
   let i = 0; let j = 0; let k = l
+  // while both arrays have values
   while (i < n1 && j < n2) {
     await wait(delay)
     console.log('in merge')
 
     // comparision coloring
-    if (parseInt(left[i] <= parseInt(right[j]))) {
+    // color pink when array is finally sorted fully and green when part of array is sorted
+    if (parseInt(left[i]) <= parseInt(right[j])) {
       if ((n1 + n2) === arr.length) {
         bars[k].style.background = 'pink'
       } else {
         bars[k].style.background = 'lightgreen'
       }
-
+      // .style.height changes the visual of the array and arr[k] = left[i] changes the actual array
+      // that cant be seen.
+      bars[k].style.height = left[i]
+      arr[k] = parseInt(left[i])
       i++; k++
     } else {
       if ((n1 + n2) === arr.length) {
@@ -121,42 +131,52 @@ const merge = async (arr, l, m, r, delay) => {
       } else {
         bars[k].style.background = 'lightgreen'
       }
+      bars[k].style.height = right[j]
+      arr[k] = parseInt(right[j])
       j++; k++
     }
   }
+  // when right array is empty
   while (i < n1) {
     await wait(delay)
-    // color
+    // coloring
     if ((n1 + n2) === arr.length) {
       bars[k].style.background = 'pink'
     } else {
       bars[k].style.background = 'lightgreen'
     }
+    bars[k].style.height = left[i]
+    arr[k] = parseInt(left[i])
     i++; k++
   }
-
+  // when left array is empty
   while (j < n2) {
     await wait(delay)
+    // coloring
     if ((n1 + n2) === arr.length) {
       bars[k].style.background = 'pink'
     } else {
       bars[k].style.background = 'lightgreen'
     }
+    bars[k].style.height = right[j]
+    arr[k] = parseInt(right[j])
     j++; k++
   }
 }
 
-// eslint-disable-next-line no-unused-vars
-export const mergeSort = async (arr, left, right) => {
+export const mergeSort = async (arr, left, right, delay) => {
+  // if there is only one in array
   if (left >= right) {
     return
   }
 
+  // find the middle of the array and split it
   const middle = left + Math.floor((right - left) / 2)
   console.log('left: ' + left + ' right: ' + right + ' midlle: ' + middle)
-  await mergeSort(arr, left, middle)
-  await mergeSort(arr, middle + 1, right)
-  await merge(arr, left, middle, right, 500)
+  // create a split and two different mergeSorts and the merge the sorted arrays.
+  await mergeSort(arr, left, middle, delay)
+  await mergeSort(arr, middle + 1, right, delay)
+  await merge(arr, left, middle, right, delay)
 }
 
 // funtion to measure the time to sort
