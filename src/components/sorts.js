@@ -58,26 +58,6 @@ export const selectionSort = async (arr, swap, delay) => {
   return arr
 }
 
-export const quickSort = async (arr) => {
-  // if the sort is finished return final array
-  if (arr.length <= 1) {
-    return arr
-  }
-
-  const left = []; const right = []
-  // we always choose the first index as pivot
-  const pivot = arr[0]
-
-  // actual sorting. Depending on if the current value of the index is larger or smaller then the index
-  // it gets pushed to it's responding array.
-  for (let i = 1; i < arr.length; i++) {
-    arr[i] < pivot ? left.push(arr[i]) : right.push(arr[i])
-  }
-
-  // create a callback of sorting the left and right side until not neccesary
-  return await quickSort(left).concat(pivot, quickSort(right))
-}
-
 // for mergesort we will need two functions, merge and mergeSort together
 // merge will return inputed array sorted
 // mergeSort will split the original array and call it with recursion until it's sorted.
@@ -177,6 +157,56 @@ export const mergeSort = async (arr, left, right, delay) => {
   await mergeSort(arr, left, middle, delay)
   await mergeSort(arr, middle + 1, right, delay)
   await merge(arr, left, middle, right, delay)
+}
+
+async function getPivot (arr, left, right, swap) {
+  const bars = document.querySelectorAll('.array-bar')
+  console.log('Getting pivot')
+  const pivot = left
+  let i = pivot + 1
+
+  // color the pivot
+  bars[pivot].style.background = 'red'
+
+  // loop through the array
+  for (let j = i; j <= right; j++) {
+    bars[j].style.background = 'yellow'
+    await wait(100)
+    // check if the index we are looping is smaller than the pivot
+    if (arr[j] < arr[pivot]) {
+      swap(i, j)
+      bars[i].style.background = 'purple'
+      bars[j].style.background = 'blue'
+      i++
+      await wait(100)
+    } else {
+      bars[j].style.background = 'blue'
+      await wait(100)
+    }
+  }
+  i--
+  swap(pivot, i)
+  bars[i].style.background = 'red'
+  bars[pivot].style.background = 'green'
+
+  for (let k = 0; k < right; k++) {
+    if (bars[k].style.background !== 'red') {
+      bars[k].style.background = 'green'
+    }
+  }
+  return i
+}
+
+export const quickSort = async (arr, left, right, swap) => {
+  const bars = document.querySelectorAll('.array-bar')
+  if (left < right) {
+    const pivot = await getPivot(arr, left, right, swap)
+    await quickSort(arr, left, pivot - 1, swap)
+    await quickSort(arr, pivot + 1, right, swap)
+  } else if (left >= 0 && right >= 0 && left < arr.length && right < arr.legth) {
+    bars[right].style.background = 'pink'
+    bars[left].style.background = 'pink'
+  }
 }
 
 // funtion to measure the time to sort

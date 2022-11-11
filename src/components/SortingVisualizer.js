@@ -55,9 +55,9 @@ const SortingVisualizer = () => {
     const sorted = await bubbleSort(array, swap, delay)
     setArray([...sorted])
   }
-  const sortQuickSort = () => {
-    const sorted = quickSort(array)
-    setArray(sorted)
+  const sortQuickSort = async () => {
+    const sorted = await quickSort(array, 0, parseInt(array.length) - 1, swap)
+    setArray([...sorted])
     console.log(array)
   }
   const sortMergeSort = () => {
