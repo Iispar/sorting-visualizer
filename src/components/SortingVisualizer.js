@@ -4,13 +4,19 @@ import { bubbleSort, selectionSort, quickSort, mergeSort } from './sorts'
 
 const SortingVisualizer = () => {
   const arrSize = 50
-  const delay = 50
+  const delay = 10
 
   const [array, setArray] = useState(Array.from({ length: arrSize }, () => Math.floor(Math.random() * 500)))
 
   // creates a new array.
   const resetArray = () => {
+    const bars = document.querySelectorAll('.array-bar')
+    // window.location.reload()
     const arr = Array.from({ length: arrSize }, () => Math.floor(Math.random() * 500))
+    // color the array back to normal color incase the array is sorted.
+    for (let i = 0; i < arr.length; i++) {
+      bars[i].style.background = 'green'
+    }
     setArray(arr)
   }
 
@@ -56,8 +62,7 @@ const SortingVisualizer = () => {
     setArray([...sorted])
   }
   const sortQuickSort = async () => {
-    const sorted = await quickSort(array, 0, parseInt(array.length) - 1, swap)
-    setArray([...sorted])
+    await quickSort(array, 0, parseInt(array.length) - 1, swap, delay)
     console.log(array)
   }
   const sortMergeSort = () => {

@@ -159,7 +159,7 @@ export const mergeSort = async (arr, left, right, delay) => {
   await merge(arr, left, middle, right, delay)
 }
 
-async function getPivot (arr, left, right, swap) {
+async function getPivot (arr, left, right, swap, delay) {
   const bars = document.querySelectorAll('.array-bar')
   console.log('Getting pivot')
   const pivot = left
@@ -171,50 +171,42 @@ async function getPivot (arr, left, right, swap) {
   // loop through the array
   for (let j = i; j <= right; j++) {
     bars[j].style.background = 'yellow'
-    await wait(100)
+    await wait(delay / 2)
     // check if the index we are looping is smaller than the pivot
     if (arr[j] < arr[pivot]) {
       swap(i, j)
       bars[i].style.background = 'purple'
-      bars[j].style.background = 'blue'
+      if (i !== j) {
+        bars[j].style.background = 'blue'
+      }
       i++
-      await wait(100)
+      await wait(delay / 2)
     } else {
       bars[j].style.background = 'blue'
-      await wait(100)
+      await wait(delay / 2)
     }
   }
   i--
   swap(pivot, i)
   bars[i].style.background = 'red'
   bars[pivot].style.background = 'green'
-
-  for (let k = 0; k < right; k++) {
+  for (let k = 0; k <= right; k++) {
     if (bars[k].style.background !== 'red') {
       bars[k].style.background = 'green'
     }
   }
+  wait(delay)
   return i
 }
 
-export const quickSort = async (arr, left, right, swap) => {
+export const quickSort = async (arr, left, right, swap, delay) => {
   const bars = document.querySelectorAll('.array-bar')
   if (left < right) {
-    const pivot = await getPivot(arr, left, right, swap)
-    await quickSort(arr, left, pivot - 1, swap)
-    await quickSort(arr, pivot + 1, right, swap)
+    const pivot = await getPivot(arr, left, right, swap, delay)
+    await quickSort(arr, left, pivot - 1, swap, delay)
+    await quickSort(arr, pivot + 1, right, swap, delay)
   } else if (left >= 0 && right >= 0 && left < arr.length && right < arr.legth) {
     bars[right].style.background = 'pink'
     bars[left].style.background = 'pink'
   }
 }
-
-// funtion to measure the time to sort
-// const time = (sort, arr, name) => {
-//   var startTime = Date.now()
-
-//   console.log(`final array: ${sort(arr)}`)
-//   sort(arr)
-//   var endTime = Date.now()
-//   console.log(`${name} took ${endTime - startTime} milliseconds`)
-//
