@@ -1,17 +1,21 @@
 import React, { useState } from 'react'
 import './SortingVisualizer.css'
-import { bubbleSort, selectionSort, quickSort, mergeSort } from './sorts'
+import { bubbleSort, selectionSort, quickSort, mergeSort, stopExec, wait } from './sorts'
 
 const SortingVisualizer = () => {
   const arrSize = 50
-  const delay = 10
+  const delay = 500
 
   const [array, setArray] = useState(Array.from({ length: arrSize }, () => Math.floor(Math.random() * 500)))
 
-  // creates a new array.
-  const resetArray = () => {
+  /**
+   * Stops the exectuion that is happening at the moment and then creates a new random array
+   */
+  const resetArray = async () => {
     const bars = document.querySelectorAll('.array-bar')
     // window.location.reload()
+    stopExec()
+    await wait(100)
     const arr = Array.from({ length: arrSize }, () => Math.floor(Math.random() * 500))
     // color the array back to normal color incase the array is sorted.
     for (let i = 0; i < arr.length; i++) {
@@ -20,6 +24,14 @@ const SortingVisualizer = () => {
     setArray(arr)
   }
 
+  // const pauseArray = () => {
+  // TODO: If want to
+  // }
+
+  /**
+   * Checks if array is sorted correctly.
+   * .@post returns a visual of being sorted
+   */
   const checkArray = () => {
     let broken = false
     for (let i = 1; i < array.length; i++) {
@@ -32,7 +44,9 @@ const SortingVisualizer = () => {
     }
   }
 
-  // renders the array.
+  /**
+   * renders the array
+   */
   const arrayList = () => {
     return (
       array.map((value, index) =>
@@ -46,6 +60,9 @@ const SortingVisualizer = () => {
     )
   }
 
+  /**
+   * swaps two values in the array. Used in the algorithms to display changes.
+   */
   function swap (a, b) {
     const arr = array;
     [arr[a], arr[b]] = [arr[b], arr[a]]
@@ -53,22 +70,16 @@ const SortingVisualizer = () => {
   }
 
   const sortSelectionSort = async () => {
-    const sorted = await selectionSort(array, swap, delay)
-    setArray([...sorted])
-    console.log(array)
+    await selectionSort(array, swap, delay)
   }
   const sortBubbleSort = async () => {
-    const sorted = await bubbleSort(array, swap, delay)
-    setArray([...sorted])
+    await bubbleSort(array, swap, delay)
   }
   const sortQuickSort = async () => {
     await quickSort(array, 0, parseInt(array.length) - 1, swap, delay)
-    console.log(array)
   }
   const sortMergeSort = () => {
-    const sorted = mergeSort(array, 0, parseInt(array.length) - 1, delay)
-    setArray([...sorted])
-    console.log(sorted)
+    mergeSort(array, 0, parseInt(array.length) - 1, delay)
   }
 
   return (
