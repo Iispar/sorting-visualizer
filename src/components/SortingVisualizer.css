@@ -1,11 +1,14 @@
 .array-container {
     position: absolute;
-    left: 100px;
-    right: 100px;
+    left: 50px;
+    right: 50px;
     top: 100px;
+    display: table;
+    margin: 0 auto;
 }
+
 .array-bar {
-    width: 10px;
+    width: calc(1vw - 2px);
     background-color: green;
     display: inline-block;
     margin: 0 2px;
