@@ -4,6 +4,7 @@ import { bubbleSort, selectionSort, quickSort, mergeSort, stopExec, wait } from 
 
 let delay = 50
 let arrSize = 50
+let execution = false
 
 const SortingVisualizer = () => {
   window.onload = function () {
@@ -18,11 +19,23 @@ const SortingVisualizer = () => {
     delaySlider.addEventListener('input', function () {
       delay = 250 - document.querySelector('#speedSlider').value
     })
+
+    const buttonContainer = document.querySelector('#buttonContainer')
+    buttonContainer.addEventListener('click', checkExecution, false)
+
+    const slidecontainer = document.querySelector('#slidecontainer')
+    slidecontainer.addEventListener('click', checkExecution, false)
   }
 
-  console.log(delay)
-
   const [array, setArray] = useState(Array.from({ length: arrSize }, () => Math.floor(Math.random() * 500)))
+
+  const checkExecution = () => {
+    console.log(execution)
+    if (execution) {
+      alert('stop')
+    }
+  }
+
   /**
    * Stops the exectuion that is happening at the moment and then creates a new random array
    */
@@ -36,6 +49,7 @@ const SortingVisualizer = () => {
     for (let i = 0; i < arr.length; i++) {
       bars[i].style.background = 'green'
     }
+    execution = false
     setArray(arr)
   }
 
@@ -83,32 +97,63 @@ const SortingVisualizer = () => {
     [arr[a], arr[b]] = [arr[b], arr[a]]
     setArray([...arr])
   }
+
+  function disableActions () {
+    execution = true
+    document.querySelector('#sizeSlider').disabled = true
+    document.querySelector('#speedSlider').disabled = true
+  }
+
+  function enableActions () {
+    execution = false
+    document.querySelector('#sizeSlider').disabled = false
+    document.querySelector('#speedSlider').disabled = false
+  }
+
   const sortBubbleSort = async () => {
-    await bubbleSort(array, swap, delay)
+    if (!execution) {
+      disableActions()
+      await bubbleSort(array, swap, delay)
+      enableActions()
+    }
   }
   const sortSelectionSort = async () => {
-    await selectionSort(array, swap, delay)
+    if (!execution) {
+      disableActions()
+      await selectionSort(array, swap, delay)
+      enableActions()
+    }
   }
   const sortQuickSort = async () => {
-    await quickSort(array, 0, parseInt(array.length) - 1, swap, delay)
+    if (!execution) {
+      execution = true
+      await quickSort(array, 0, parseInt(array.length) - 1, swap, delay)
+      execution = false
+    }
   }
   const sortMergeSort = () => {
-    mergeSort(array, 0, parseInt(array.length) - 1, delay)
+    if (!execution) {
+      execution = true
+      mergeSort(array, 0, parseInt(array.length) - 1, delay)
+      execution = false
+    }
   }
 
   return (
     <>
-      <button onClick={resetArray}> Reset </button>
-      <button onClick={sortBubbleSort}> Bubble sort </button>
-      <button onClick={sortSelectionSort}> Selection sort </button>
-      <button onClick={sortQuickSort}> Quick sort </button>
-      <button onClick={sortMergeSort}> Merge sort </button>
+      <button onClick={resetArray} id="resetButton"> Reset </button>
+      <div id="buttonContainer">
+        <button onClick={sortBubbleSort} id="bubbleSortButton"> Bubble sort </button>
+        <button onClick={sortSelectionSort} id="selectionSortButton"> Selection sort </button>
+        <button onClick={sortQuickSort} id="quickSortButton"> Quick sort </button>
+        <button onClick={sortMergeSort} id="mergeSortButton"> Merge sort </button>
+      </div>
 
-      <div className="slidecontainer">
-      <p> Size </p>
-        <input type="range" min="10" max="80" defaultValue="50" className="slider" id="sizeSlider" step="5"></input>
-      <p> Speed </p>
-        <input type="range" min="10" max="200" defaultValue="50" className="slider" id="speedSlider" step="5"></input>
+      <div id="slidecontainer">
+        <p> Size </p>
+          <input type="range" min="10" max="80" defaultValue="50" className="slider" id="sizeSlider" step="5"></input>
+        <p> Speed </p>
+          <input type="range" min="10" max="200" defaultValue="50" className="slider" id="speedSlider" step="5"></input>
       </div>
 
       <div className = "array-container">
