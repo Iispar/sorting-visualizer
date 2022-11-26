@@ -20,10 +20,10 @@ const SortingVisualizer = () => {
       delay = 250 - document.querySelector('#speedSlider').value
     })
 
-    const buttonContainer = document.querySelector('#buttonContainer')
+    const buttonContainer = document.querySelector('#button-container')
     buttonContainer.addEventListener('click', checkExecution, false)
 
-    const slidecontainer = document.querySelector('#slidecontainer')
+    const slidecontainer = document.querySelector('#slide-container')
     slidecontainer.addEventListener('click', checkExecution, false)
   }
 
@@ -141,28 +141,30 @@ const SortingVisualizer = () => {
 
   return (
     <>
-      <button onClick={resetArray} id="resetButton"> Reset </button>
-      <div id="buttonContainer">
-        <button onClick={sortBubbleSort} id="bubbleSortButton"> Bubble sort </button>
-        <button onClick={sortSelectionSort} id="selectionSortButton"> Selection sort </button>
-        <button onClick={sortQuickSort} id="quickSortButton"> Quick sort </button>
-        <button onClick={sortMergeSort} id="mergeSortButton"> Merge sort </button>
+    <section className="header-container">
+      <div className="error-container">
+        <button onClick={resetArray} id="resetButton" className="reset-button"> Reset </button>
       </div>
 
-      <div id="slidecontainer">
-        <p> Size </p>
-          <input type="range" min="10" max="80" defaultValue="50" className="slider" id="sizeSlider" step="5"></input>
-        <p> Speed </p>
+      <div className="button-container" id="button-container">
+        <button onClick={sortBubbleSort} id="bubbleSortButton" className="array-button"> Bubble sort </button>
+        <button onClick={sortSelectionSort} id="selectionSortButton" className="array-button"> Selection sort </button>
+        <button onClick={sortQuickSort} id="quickSortButton" className="array-button"> Quick sort </button>
+        <button onClick={sortMergeSort} id="mergeSortButton" className="array-button"> Merge sort </button>
+      </div>
+
+      <div className="slide-container" id="slide-container">
+          <input type="range" min="10" max="150" defaultValue="50" className="slider" id="sizeSlider" step="5"></input>
           <input type="range" min="10" max="200" defaultValue="50" className="slider" id="speedSlider" step="5"></input>
       </div>
-
-      <div className = "array-container">
-        {arrayList()}
-      </div>
-      <div>
-        {checkArray()}
-      </div>
-      </>
+    </section>
+    <div className = "array-container">
+      {arrayList()}
+    </div>
+    <div>
+      {checkArray()}
+    </div>
+    </>
   )
 }
 

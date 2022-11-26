@@ -3,13 +3,61 @@
     left: 50px;
     right: 50px;
     top: 100px;
-    display: table;
-    margin: 0 auto;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    transform: scaleY(-1);
 }
 
 .array-bar {
-    width: calc(1vw - 2px);
+    width: 5%;
     background-color: green;
     display: inline-block;
-    margin: 0 2px;
+    margin: 0 1px;
+}
+
+.header-container {
+    height: 50px;
+    background-color: blue;
+    display: flex;
+    padding: 10px;
+    overflow: auto;
+    justify-content: space-between;
+}
+
+.error-container {
+    width: 50px;
+    height: 50px;
+    background: yellow;
+}
+.button-container {
+    width: 350px;
+    height: 50px;
+    background: red;
+    display: flex;
+}
+
+.slide-container {
+    background: green;
+}
+
+.reset-button {
+    display: block;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    background: gray;
+    box-shadow: 0 0 3px gray;
+}
+
+.reset-button:hover {
+    background: red;
+}
+
+.array-button {
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    margin-left: 5px;
 }
