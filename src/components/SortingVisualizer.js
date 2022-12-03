@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './SortingVisualizer.css'
 import { bubbleSort, selectionSort, quickSort, mergeSort, stopExec, wait } from './sorts'
 
-let delay = 50
+let delay = 150
 let arrSize = 50
 let execution = false
 
@@ -11,13 +11,13 @@ const SortingVisualizer = () => {
     arrSize = document.querySelector('#sizeSlider').value
     const arrSizeSlider = document.querySelector('#sizeSlider')
     arrSizeSlider.addEventListener('input', function () {
-      arrSize = document.querySelector('#sizeSlider').value
+      arrSize = arrSizeSlider.value
       setArray(Array.from({ length: arrSize }, () => Math.floor(Math.random() * 500)))
     })
 
     const delaySlider = document.querySelector('#speedSlider')
     delaySlider.addEventListener('input', function () {
-      delay = 250 - document.querySelector('#speedSlider').value
+      delay = 250 - delaySlider.value
     })
 
     const buttonContainer = document.querySelector('#button-container')
@@ -50,6 +50,7 @@ const SortingVisualizer = () => {
       bars[i].style.background = 'green'
     }
     execution = false
+    enableActions()
     setArray(arr)
   }
 
@@ -69,7 +70,7 @@ const SortingVisualizer = () => {
       }
     }
     if (!broken) {
-      return <h1> Sorted </h1>
+      return <p> The array is sorted </p>
     }
   }
 
@@ -121,50 +122,69 @@ const SortingVisualizer = () => {
     if (!execution) {
       disableActions()
       await selectionSort(array, swap, delay)
-      enableActions()
+      disableActions()
     }
   }
   const sortQuickSort = async () => {
     if (!execution) {
-      execution = true
+      disableActions()
       await quickSort(array, 0, parseInt(array.length) - 1, swap, delay)
-      execution = false
+      disableActions()
     }
   }
   const sortMergeSort = () => {
     if (!execution) {
-      execution = true
+      disableActions()
       mergeSort(array, 0, parseInt(array.length) - 1, delay)
-      execution = false
+      disableActions()
     }
   }
 
   return (
-    <>
-    <section className="header-container">
-      <div className="error-container">
-        <button onClick={resetArray} id="resetButton" className="reset-button"> Reset </button>
+    <div className="grid-container">
+      <div className="header-container">
+        <div className="error-container">
+          <button onClick={resetArray} id="resetButton" className="reset-button"> Reset </button>
+        </div>
+
+        <div className="button-container" id="button-container">
+          <button onClick={sortBubbleSort} id="bubbleSortButton" className="array-button">
+            <span> Bubble Sort </span>
+          </button>
+          <button onClick={sortSelectionSort} id="selectionSortButton" className="array-button">
+            <span> Selection Sort </span>
+          </button>
+          <button onClick={sortQuickSort} id="quickSortButton" className="array-button">
+            <span> Quick Sort </span>
+          </button>
+          <button onClick={sortMergeSort} id="mergeSortButton" className="array-button">
+            <span> Merge Sort </span>
+          </button>
+        </div>
+
+        <div className="slide-container" id="slide-container">
+          <div className="sizeSliderContainer">
+            <input type="range" min="10" max="150" defaultValue="50" className="slider" id="sizeSlider" step="5"></input>
+            <div className="sizeSliderCaption">
+              <p> Size </p>
+            </div>
+          </div>
+          <div className="speedSliderContainer">
+            <input type="range" min="10" max="200" defaultValue="100" className="slider" id="speedSlider" step="5"></input>
+            <div className="speedSliderCaption">
+              <p> Speed </p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="button-container" id="button-container">
-        <button onClick={sortBubbleSort} id="bubbleSortButton" className="array-button"> Bubble sort </button>
-        <button onClick={sortSelectionSort} id="selectionSortButton" className="array-button"> Selection sort </button>
-        <button onClick={sortQuickSort} id="quickSortButton" className="array-button"> Quick sort </button>
-        <button onClick={sortMergeSort} id="mergeSortButton" className="array-button"> Merge sort </button>
+      <div className = "array-container">
+        {arrayList()}
       </div>
-
-      <div className="slide-container" id="slide-container">
-          <input type="range" min="10" max="150" defaultValue="50" className="slider" id="sizeSlider" step="5"></input>
-          <input type="range" min="10" max="200" defaultValue="50" className="slider" id="speedSlider" step="5"></input>
+      <div className = "footer-container">
+        {checkArray()}
       </div>
-    </section>
-    <div className = "array-container">
-      {arrayList()}
     </div>
-    <div>
-      {checkArray()}
-    </div>
-    </>
   )
 }
 

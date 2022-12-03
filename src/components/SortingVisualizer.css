@@ -1,13 +1,38 @@
+  
 .array-container {
-    position: absolute;
     left: 50px;
     right: 50px;
-    top: 100px;
+    top: 200px;
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
+    grid-column-start: 1;
+    grid-column-end: 4;
     transform: scaleY(-1);
 }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 10px;
+    padding: 10px;
+  }
+
+.grid-container > div {
+    text-align: center;
+    padding: 20px 0;
+  }
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    background: rgb(168, 168, 168);
+    border-radius: 5px;
+  }
 
 .array-bar {
     width: 5%;
@@ -16,48 +41,139 @@
     margin: 0 1px;
 }
 
-.header-container {
-    height: 50px;
-    background-color: blue;
-    display: flex;
-    padding: 10px;
-    overflow: auto;
-    justify-content: space-between;
-}
-
 .error-container {
-    width: 50px;
-    height: 50px;
-    background: yellow;
+    display: flex;
+    width: 55px;
+    height: 55px;
+    padding: 10px;
 }
 .button-container {
-    width: 350px;
+    width: 450px;
     height: 50px;
-    background: red;
     display: flex;
+    justify-content: center;
 }
 
 .slide-container {
-    background: green;
+    width: 280px;
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.sizeSliderContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    top: 10px;
+}
+
+.speedSliderContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    top: 10px;
+}
+
+.sizeSliderCaption {
+    height: 32px;
+    position: absolute;
+    top: -30px;
+    text-transform: uppercase;
+        font-size: 13px;
+        font-family: "Work Sans", sans-serif;
+        font-weight: 500;
+        letter-spacing: 0.8px;
+}
+
+.speedSliderCaption {
+    height: 32px;
+    position: absolute;
+    top: -30px;
+    text-transform: uppercase;
+        font-size: 13px;
+        font-family: "Work Sans", sans-serif;
+        font-weight: 500;
+        letter-spacing: 0.8px;
 }
 
 .reset-button {
-    display: block;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0px;
     height: 100%;
     width: 100%;
     border-radius: 50%;
     overflow: hidden;
-    background: gray;
-    box-shadow: 0 0 3px gray;
+    background: rgb(255, 255, 255);
+    box-shadow: 0 0 3px grey;
+    border-width: 0;
+    text-transform: uppercase;
+        font-size: 12px;
+        font-family: "Work Sans", sans-serif;
+        font-weight: 500;
+        letter-spacing: 0.8px;
 }
 
 .reset-button:hover {
-    background: red;
+    transform: translateY(2px);
+    color: rgb(30, 30, 30);
+    box-shadow: .0rem 0 5px #777;
 }
 
 .array-button {
-    width: 200px;
+    display: block;
+    width: 100px;
     height: 50px;
     border-radius: 10px;
-    margin-left: 5px;
+    margin-left: 10px;
+    border: none;
+    box-shadow: 0 0 5px grey;
+    background: white;
+    text-transform: uppercase;
+        font-size: 13px;
+        font-family: "Work Sans", sans-serif;
+        font-weight: 500;
+        letter-spacing: 0.8px;
+}
+.array-button:hover span {
+    display: none;
+}
+.array-button:hover:after{
+    content: "Start";
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    position: relative;
+    width: 100%;
+    height: 8px;
+    background: white;
+    outline: none;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px grey;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: rgb(123, 123, 255);
+    border-radius: 4px;
+}
+
+.footer-container {
+    display: grid;
+    grid-row-start: 3;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    text-transform: uppercase;
+        font-size: 20px;
+        font-family: "Work Sans", sans-serif;
+        font-weight: 500;
+        letter-spacing: 0.8px;
 }
