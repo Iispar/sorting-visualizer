@@ -110,7 +110,7 @@ export const selectionSort = async (arr, swap, delay) => {
  * @param {*} delay
  *
  */
-const merge = async (arr, l, m, r, delay) => {
+const merge = async (arr, l, m, r, delay, refreshArray) => {
   const bars = document.querySelectorAll('.array-bar')
 
   console.log('Now merging')
@@ -171,6 +171,7 @@ const merge = async (arr, l, m, r, delay) => {
       arr[k] = parseInt(right[j])
       j++; k++
     }
+    refreshArray(arr)
   }
   if (quit === true) return
   // when right array is empty
@@ -201,9 +202,10 @@ const merge = async (arr, l, m, r, delay) => {
     arr[k] = parseInt(right[j])
     j++; k++
   }
+  refreshArray(arr)
 }
 
-export const mergeSort = async (arr, left, right, delay) => {
+export const mergeSort = async (arr, left, right, delay, refreshArray) => {
   if (quit === true) return
   // if there is only one in array
   if (left >= right) {
@@ -211,16 +213,14 @@ export const mergeSort = async (arr, left, right, delay) => {
   }
   // find the middle of the array and split it
   const middle = left + Math.floor((right - left) / 2)
-  console.log('left: ' + left + ' right: ' + right + ' midlle: ' + middle)
   // create a split and two different mergeSorts and the merge the sorted arrays.
-  await mergeSort(arr, left, middle, delay)
-  await mergeSort(arr, middle + 1, right, delay)
-  await merge(arr, left, middle, right, delay)
+  await mergeSort(arr, left, middle, delay, refreshArray)
+  await mergeSort(arr, middle + 1, right, delay, refreshArray)
+  await merge(arr, left, middle, right, delay, refreshArray)
 }
 
 async function sorting (arr, left, right, swap, delay) {
   const bars = document.querySelectorAll('.array-bar')
-  console.log('Getting pivot')
   const pivot = left
   let i = pivot + 1
 

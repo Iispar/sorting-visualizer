@@ -1,8 +1,5 @@
   
 .array-container {
-    left: 50px;
-    right: 50px;
-    top: 200px;
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
@@ -36,7 +33,7 @@
 
 .array-bar {
     width: 5%;
-    background-color: green;
+    background-color: rgb(123, 123, 255);
     display: inline-block;
     margin: 0 1px;
 }
@@ -166,7 +163,14 @@
 }
 
 .footer-container {
-    display: grid;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: rgb(168, 168, 168);
+    height: auto;
+    border-radius: 5px;
     grid-row-start: 3;
     grid-row-end: 3;
     grid-column-start: 1;

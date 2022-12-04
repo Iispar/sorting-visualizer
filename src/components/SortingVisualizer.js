@@ -41,17 +41,16 @@ const SortingVisualizer = () => {
    */
   const resetArray = async () => {
     const bars = document.querySelectorAll('.array-bar')
-    // window.location.reload()
     stopExec()
-    await wait(100)
+    await wait(150)
     const arr = Array.from({ length: arrSize }, () => Math.floor(Math.random() * 500))
     // color the array back to normal color incase the array is sorted.
     for (let i = 0; i < arr.length; i++) {
-      bars[i].style.background = 'green'
+      bars[i].style.background = 'rgb(123, 123, 255)'
     }
     execution = false
-    enableActions()
     setArray(arr)
+    enableActions()
   }
 
   // const pauseArray = () => {
@@ -70,8 +69,16 @@ const SortingVisualizer = () => {
       }
     }
     if (!broken) {
-      return <p> The array is sorted </p>
+      return <div> The array is now sorted </div>
     }
+  }
+
+  const displayArray = () => {
+    let items = ''
+    for (let i = 0; i < array.length; i++) {
+      items += `[${array[i]}] `
+    }
+    return items
   }
 
   /**
@@ -90,10 +97,15 @@ const SortingVisualizer = () => {
     )
   }
 
+  function refreshArray (arr) {
+    setArray([...arr])
+  }
+
   /**
    * swaps two values in the array. Used in the algorithms to display changes.
    */
   function swap (a, b) {
+    console.log('Swapping: ' + a + ' and ' + b)
     const arr = array;
     [arr[a], arr[b]] = [arr[b], arr[a]]
     setArray([...arr])
@@ -121,6 +133,7 @@ const SortingVisualizer = () => {
   const sortSelectionSort = async () => {
     if (!execution) {
       disableActions()
+
       await selectionSort(array, swap, delay)
       disableActions()
     }
@@ -132,10 +145,10 @@ const SortingVisualizer = () => {
       disableActions()
     }
   }
-  const sortMergeSort = () => {
+  const sortMergeSort = async () => {
     if (!execution) {
       disableActions()
-      mergeSort(array, 0, parseInt(array.length) - 1, delay)
+      await mergeSort(array, 0, parseInt(array.length) - 1, delay, refreshArray)
       disableActions()
     }
   }
@@ -182,6 +195,7 @@ const SortingVisualizer = () => {
         {arrayList()}
       </div>
       <div className = "footer-container">
+        {displayArray()}
         {checkArray()}
       </div>
     </div>
