@@ -1,4 +1,9 @@
 let quit = false
+const red = 'rgb(225, 110, 110)'
+const green = 'rgb(108, 179, 105)'
+const blue = 'rgb(123, 123, 255)'
+const yellow = 'rgb(206, 194, 94)'
+const lightgreen = 'rgb(184, 255, 161)'
 
 /**
  * makes the function wait for parameter milisec x duration.
@@ -38,11 +43,9 @@ export const bubbleSort = async (arr, swap, delay) => {
     for (let a = 0; a < (arr.length - 1 - i); a++) {
       // stop if reset has been pressed
       if (quit === true) break
-      console.log(quit)
       // indicates the two values that are being compared
-      bars[a].style.backgroundColor = 'red'
-      bars[a + 1].style.backgroundColor = 'red'
-
+      bars[a].style.backgroundColor = red
+      bars[a + 1].style.backgroundColor = green
       // slow down the comparision
       await wait(delay)
 
@@ -54,9 +57,10 @@ export const bubbleSort = async (arr, swap, delay) => {
         swap(a, b)
       }
       // change bars back to normal
-      bars[a].style.backgroundColor = 'green'
-      bars[a + 1].style.backgroundColor = 'green'
+      bars[a].style.backgroundColor = blue
+      bars[a + 1].style.backgroundColor = green
     }
+    bars[0].style.backgroundColor = green
   }
 }
 
@@ -72,22 +76,22 @@ export const selectionSort = async (arr, swap, delay) => {
   // actual sorting algorithm
   for (let i = 0; i < arr.length; i++) {
     let min = i
-    bars[min].style.backgroundColor = 'orange'
     // find the smallest index of the array
     for (let k = i + 1; k < arr.length; k++) {
       // stop if reset has been pressed
       if (quit === true) break
-      bars[k].style.backgroundColor = 'red'
+      bars[k].style.backgroundColor = red
       await wait(delay)
       if (arr[k] < arr[min]) {
-        bars[min].style.backgroundColor = 'green'
+        bars[min].style.backgroundColor = blue
         min = k
-        bars[min].style.backgroundColor = 'orange'
+        bars[min].style.backgroundColor = green
       } else {
-        bars[k].style.backgroundColor = 'green'
+        bars[k].style.backgroundColor = blue
       }
     }
-    bars[min].style.backgroundColor = 'green'
+    bars[min].style.backgroundColor = blue
+    bars[i].style.backgroundColor = green
     if (quit === true) break
     // swap smallest value and index
     swap(i, min)
@@ -113,7 +117,6 @@ export const selectionSort = async (arr, swap, delay) => {
 const merge = async (arr, l, m, r, delay, refreshArray) => {
   const bars = document.querySelectorAll('.array-bar')
 
-  console.log('Now merging')
   const n1 = m - l + 1
   const n2 = r - m
   const left = new Array(n1)
@@ -127,16 +130,14 @@ const merge = async (arr, l, m, r, delay, refreshArray) => {
   for (let i = 0; i < n1; i++) {
     await wait(delay)
     if (quit === true) break
-    console.log('left loop')
-    bars[l + i].style.background = 'red'
+    bars[l + i].style.background = red
     left[i] = bars[l + i].style.height
   }
   // same for right array and coloring it with orange
   for (let i = 0; i < n2; i++) {
     await wait(delay)
     if (quit === true) break
-    console.log('right loop')
-    bars[m + 1 + i].style.background = 'orange'
+    bars[m + 1 + i].style.background = yellow
     right[i] = bars[m + 1 + i].style.height
   }
   await wait(delay)
@@ -146,15 +147,14 @@ const merge = async (arr, l, m, r, delay, refreshArray) => {
   while (i < n1 && j < n2) {
     await wait(delay)
     if (quit === true) break
-    console.log('in merge')
 
     // comparision coloring
     // color pink when array is finally sorted fully and green when part of array is sorted
     if (parseInt(left[i]) <= parseInt(right[j])) {
       if ((n1 + n2) === arr.length) {
-        bars[k].style.background = 'pink'
+        bars[k].style.background = green
       } else {
-        bars[k].style.background = 'lightgreen'
+        bars[k].style.background = lightgreen
       }
       // .style.height changes the visual of the array and arr[k] = left[i] changes the actual array
       // that cant be seen.
@@ -163,9 +163,9 @@ const merge = async (arr, l, m, r, delay, refreshArray) => {
       i++; k++
     } else {
       if ((n1 + n2) === arr.length) {
-        bars[k].style.background = 'pink'
+        bars[k].style.background = green
       } else {
-        bars[k].style.background = 'lightgreen'
+        bars[k].style.background = lightgreen
       }
       bars[k].style.height = right[j]
       arr[k] = parseInt(right[j])
@@ -180,9 +180,9 @@ const merge = async (arr, l, m, r, delay, refreshArray) => {
     if (quit === true) break
     // coloring
     if ((n1 + n2) === arr.length) {
-      bars[k].style.background = 'pink'
+      bars[k].style.background = green
     } else {
-      bars[k].style.background = 'lightgreen'
+      bars[k].style.background = lightgreen
     }
     bars[k].style.height = left[i]
     arr[k] = parseInt(left[i])
@@ -194,9 +194,9 @@ const merge = async (arr, l, m, r, delay, refreshArray) => {
     if (quit === true) break
     // coloring
     if ((n1 + n2) === arr.length) {
-      bars[k].style.background = 'pink'
+      bars[k].style.background = green
     } else {
-      bars[k].style.background = 'lightgreen'
+      bars[k].style.background = lightgreen
     }
     bars[k].style.height = right[j]
     arr[k] = parseInt(right[j])
@@ -225,7 +225,7 @@ async function sorting (arr, left, right, swap, delay) {
   let i = pivot + 1
 
   // color the pivot
-  bars[pivot].style.background = 'red'
+  bars[pivot].style.background = red
 
   // loop through the array
   for (let j = i; j <= right; j++) {
@@ -238,14 +238,14 @@ async function sorting (arr, left, right, swap, delay) {
       // stop if reset has been pressed
       if (quit === true) break
       swap(i, j)
-      bars[i].style.background = 'purple'
+      bars[i].style.background = red
       if (i !== j) {
-        bars[j].style.background = 'blue'
+        bars[j].style.background = yellow
       }
       i++
       await wait(delay / 2)
     } else {
-      bars[j].style.background = 'blue'
+      bars[j].style.background = yellow
       await wait(delay / 2)
     }
   }
@@ -253,10 +253,10 @@ async function sorting (arr, left, right, swap, delay) {
   i--
   swap(pivot, i)
   bars[i].style.background = 'red'
-  bars[pivot].style.background = 'green'
+  bars[pivot].style.background = blue
   for (let k = 0; k <= right; k++) {
     if (bars[k].style.background !== 'red') {
-      bars[k].style.background = 'green'
+      bars[k].style.background = blue
     }
   }
   wait(delay)

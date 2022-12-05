@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import './SortingVisualizer.css'
 import { bubbleSort, selectionSort, quickSort, mergeSort, stopExec, wait } from './sorts'
+import Notification from './Notification'
+import Footer from './Footer'
+import ArrayList from './ArrayList'
 
 let delay = 150
 let arrSize = 50
@@ -28,11 +31,14 @@ const SortingVisualizer = () => {
   }
 
   const [array, setArray] = useState(Array.from({ length: arrSize }, () => Math.floor(Math.random() * 500)))
+  const [errorMessage, setErrorMessage] = useState(null)
 
-  const checkExecution = () => {
-    console.log(execution)
+  const checkExecution = (message) => {
     if (execution) {
-      alert('stop')
+      setErrorMessage('Reset the array before doing this')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
   }
 
@@ -57,46 +63,6 @@ const SortingVisualizer = () => {
   // TODO: If want to
   // }
 
-  /**
-   * Checks if array is sorted correctly.
-   * .@post returns a visual of being sorted
-   */
-  const checkArray = () => {
-    let broken = false
-    for (let i = 1; i < array.length; i++) {
-      if (array[i] < array[i - 1]) {
-        broken = true
-      }
-    }
-    if (!broken) {
-      return <div> The array is now sorted </div>
-    }
-  }
-
-  const displayArray = () => {
-    let items = ''
-    for (let i = 0; i < array.length; i++) {
-      items += `[${array[i]}] `
-    }
-    return items
-  }
-
-  /**
-   * renders the array
-   */
-  const arrayList = () => {
-    return (
-      array.map((value, index) =>
-          <div
-            className = "array-bar"
-            key = {index}
-            style = {{ height: `${value}px` }}
-            >
-          </div>
-      )
-    )
-  }
-
   function refreshArray (arr) {
     setArray([...arr])
   }
@@ -105,7 +71,6 @@ const SortingVisualizer = () => {
    * swaps two values in the array. Used in the algorithms to display changes.
    */
   function swap (a, b) {
-    console.log('Swapping: ' + a + ' and ' + b)
     const arr = array;
     [arr[a], arr[b]] = [arr[b], arr[a]]
     setArray([...arr])
@@ -154,6 +119,9 @@ const SortingVisualizer = () => {
   }
 
   return (
+    <>
+    <Notification message = {errorMessage}/>
+
     <div className="grid-container">
       <div className="header-container">
         <div className="error-container">
@@ -191,14 +159,11 @@ const SortingVisualizer = () => {
         </div>
       </div>
 
-      <div className = "array-container">
-        {arrayList()}
-      </div>
-      <div className = "footer-container">
-        {displayArray()}
-        {checkArray()}
-      </div>
+      <ArrayList array = {array}/>
+      <Footer array = {array}/>
+
     </div>
+    </>
   )
 }
 
