@@ -2,14 +2,10 @@ import React from 'react'
 
 /* eslint-disable react/prop-types */
 const Notification = ({ message }) => {
-  if (message === null) {
-    return null
-  }
-
   return (
-      <div className="error">
-        {message}
-      </div>
+    <div className="error" id="errorMessage">
+    {message}
+  </div>
   )
 }
 

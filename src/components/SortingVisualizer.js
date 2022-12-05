@@ -33,12 +33,12 @@ const SortingVisualizer = () => {
   const [array, setArray] = useState(Array.from({ length: arrSize }, () => Math.floor(Math.random() * 500)))
   const [errorMessage, setErrorMessage] = useState(null)
 
-  const checkExecution = (message) => {
+  const checkExecution = async (message) => {
     if (execution) {
       setErrorMessage('Reset the array before doing this')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+
+      const slideout = await document.getElementById('errorMessage')
+      slideout.classList.toggle('notificationBar')
     }
   }
 
