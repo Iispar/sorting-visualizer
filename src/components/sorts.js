@@ -23,7 +23,7 @@ export function wait (milisec) {
  */
 export const stopExec = async () => {
   quit = true
-  await wait(1500)
+  await wait(250)
   quit = false
 }
 
@@ -60,6 +60,7 @@ export const bubbleSort = async (arr, swap, delay) => {
       bars[a].style.backgroundColor = blue
       bars[a + 1].style.backgroundColor = green
     }
+    if (quit === true) break
     bars[0].style.backgroundColor = green
   }
 }
@@ -90,9 +91,9 @@ export const selectionSort = async (arr, swap, delay) => {
         bars[k].style.backgroundColor = blue
       }
     }
+    if (quit === true) break
     bars[min].style.backgroundColor = blue
     bars[i].style.backgroundColor = green
-    if (quit === true) break
     // swap smallest value and index
     swap(i, min)
   }
@@ -128,25 +129,25 @@ const merge = async (arr, l, m, r, delay, refreshArray) => {
   // loop for left array to fill it with the height of the bars. Also show the array which
   // is being compared at the moment with red
   for (let i = 0; i < n1; i++) {
-    await wait(delay)
     if (quit === true) break
+    await wait(delay)
     bars[l + i].style.background = red
     left[i] = bars[l + i].style.height
   }
   // same for right array and coloring it with orange
   for (let i = 0; i < n2; i++) {
-    await wait(delay)
     if (quit === true) break
+    await wait(delay)
     bars[m + 1 + i].style.background = yellow
     right[i] = bars[m + 1 + i].style.height
   }
-  await wait(delay)
   if (quit === true) return
+  await wait(delay)
   let i = 0; let j = 0; let k = l
   // while both arrays have values
   while (i < n1 && j < n2) {
-    await wait(delay)
     if (quit === true) break
+    await wait(delay)
 
     // comparision coloring
     // color pink when array is finally sorted fully and green when part of array is sorted
@@ -176,8 +177,8 @@ const merge = async (arr, l, m, r, delay, refreshArray) => {
   if (quit === true) return
   // when right array is empty
   while (i < n1) {
-    await wait(delay)
     if (quit === true) break
+    await wait(delay)
     // coloring
     if ((n1 + n2) === arr.length) {
       bars[k].style.background = green
@@ -190,8 +191,8 @@ const merge = async (arr, l, m, r, delay, refreshArray) => {
   }
   // when left array is empty
   while (j < n2) {
-    await wait(delay)
     if (quit === true) break
+    await wait(delay)
     // coloring
     if ((n1 + n2) === arr.length) {
       bars[k].style.background = green

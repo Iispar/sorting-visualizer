@@ -48,9 +48,9 @@ const SortingVisualizer = () => {
   const resetArray = async () => {
     const bars = document.querySelectorAll('.array-bar')
     stopExec()
-    await wait(150)
     const arr = Array.from({ length: arrSize }, () => Math.floor(Math.random() * 500))
     // color the array back to normal color incase the array is sorted.
+    await wait(200)
     for (let i = 0; i < arr.length; i++) {
       bars[i].style.background = 'rgb(123, 123, 255)'
     }
