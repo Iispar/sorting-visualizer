@@ -121,7 +121,6 @@ const SortingVisualizer = () => {
   return (
     <>
     <Notification message = {errorMessage}/>
-
     <div className="grid-container">
       <div className="header-container">
         <div className="error-container">
