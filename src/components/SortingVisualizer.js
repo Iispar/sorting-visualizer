@@ -10,6 +10,11 @@ let arrSize = 50
 let execution = false
 
 const SortingVisualizer = () => {
+  /**
+   * We add eventlisteners to the sliders and buttons after the site has been loaded.
+   * With this we can use the sliders, buttons don't work from here.
+   * This also checks if the action is allowed with checkExecution.
+   */
   window.onload = function () {
     arrSize = document.querySelector('#sizeSlider').value
     const arrSizeSlider = document.querySelector('#sizeSlider')
@@ -33,7 +38,11 @@ const SortingVisualizer = () => {
   const [array, setArray] = useState(Array.from({ length: arrSize }, () => Math.floor(Math.random() * 500)))
   const [errorMessage, setErrorMessage] = useState(null)
 
-  const checkExecution = async (message) => {
+  /**
+   * Check if execution is allowed to start. If not we set an errorMessage.
+   *
+   */
+  const checkExecution = async () => {
     if (execution) {
       setErrorMessage('Reset the array before doing this')
 
@@ -76,18 +85,30 @@ const SortingVisualizer = () => {
     setArray([...arr])
   }
 
+  /**
+   * Disables the actions for the buttons with execution = true.
+   * Disables the sliders also for the visual.
+   */
   function disableActions () {
     execution = true
     document.querySelector('#sizeSlider').disabled = true
     document.querySelector('#speedSlider').disabled = true
   }
 
+  /**
+   * enables the actions back on
+   */
   function enableActions () {
     execution = false
     document.querySelector('#sizeSlider').disabled = false
     document.querySelector('#speedSlider').disabled = false
   }
 
+  /**
+   * All sort calls work the same way. We check if the execution is allowed to start with
+   * id (execution). If it is allowed to start we start it and also disable all the actions.
+   * When the sort is finished we enable the actions again.
+   */
   const sortBubbleSort = async () => {
     if (!execution) {
       disableActions()
