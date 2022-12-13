@@ -19,6 +19,9 @@ const Footer = ({ array }) => {
     }
   }
 
+  /**
+   * Displays the array with an list.
+   */
   const displayArray = () => {
     let items = ''
     for (let i = 0; i < array.length; i++) {

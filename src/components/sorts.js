@@ -10,7 +10,7 @@ const lightgreen = 'rgb(184, 255, 161)'
  * @param {*} milisec
  *
  */
-export function wait (milisec) {
+export const wait = (milisec) => {
   return new Promise(resolve => {
     setTimeout(() => { resolve('') }, milisec)
   })
@@ -220,7 +220,7 @@ export const mergeSort = async (arr, left, right, delay, refreshArray) => {
   await merge(arr, left, middle, right, delay, refreshArray)
 }
 
-async function sorting (arr, left, right, swap, delay) {
+const sorting = async (arr, left, right, swap, delay) => {
   const bars = document.querySelectorAll('.array-bar')
   const pivot = left
   let i = pivot + 1

@@ -72,14 +72,14 @@ const SortingVisualizer = () => {
   // TODO: If want to
   // }
 
-  function refreshArray (arr) {
+  const refreshArray = (arr) => {
     setArray([...arr])
   }
 
   /**
    * swaps two values in the array. Used in the algorithms to display changes.
    */
-  function swap (a, b) {
+  const swap = (a, b) => {
     const arr = array;
     [arr[a], arr[b]] = [arr[b], arr[a]]
     setArray([...arr])
@@ -89,7 +89,7 @@ const SortingVisualizer = () => {
    * Disables the actions for the buttons with execution = true.
    * Disables the sliders also for the visual.
    */
-  function disableActions () {
+  const disableActions = () => {
     execution = true
     document.querySelector('#sizeSlider').disabled = true
     document.querySelector('#speedSlider').disabled = true
@@ -98,7 +98,7 @@ const SortingVisualizer = () => {
   /**
    * enables the actions back on
    */
-  function enableActions () {
+  const enableActions = () => {
     execution = false
     document.querySelector('#sizeSlider').disabled = false
     document.querySelector('#speedSlider').disabled = false
